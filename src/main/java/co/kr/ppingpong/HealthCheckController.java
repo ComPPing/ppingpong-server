@@ -8,7 +8,7 @@ public class HealthCheckController {
 
     @GetMapping("/")
     public String hi() {
-        return "hi";
+        return "hi~";
     }
 
 }
