@@ -1,7 +1,7 @@
 
 spring:
   datasource:
-    url: aws-ppingpong-mariadb.cutzpg5b9okf.ap-northeast-2.rds.amazonaws.com/Asia/Seoul
+    url: jdbc:mariadb://aws-ppingpong-mariadb.cutzpg5b9okf.ap-northeast-2.rds.amazonaws.com/Asia/Seoul # jdbc 시작
     driver-class-name: org.mariadb.jdbc.Driver
     username: rnwnsgud
     password: rnwnsgud1234
