@@ -9,7 +9,7 @@ public class HealthCheckController {
 
     @GetMapping
     public String hi() {
-        return "hi~";
+        return "dev에서 merge 요청했습니다.";
     }
 
 
