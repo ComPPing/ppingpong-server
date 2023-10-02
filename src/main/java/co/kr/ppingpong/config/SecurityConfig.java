@@ -98,7 +98,7 @@ public class SecurityConfig {
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")
                 .userNameAttributeName("id")
-                .redirectUri("http://ec2-3-39-245-230.ap-northeast-2.compute.amazonaws.com/login/oauth2/code/kakao") // 변경
+                .redirectUri("http://App-compping-beanstalk-env.eba-f4upmz7v.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/kakao") // 변경
                 .build();
     }
 
