@@ -20,7 +20,7 @@ import java.io.IOException;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
     @Value("${jwt.access_header}")
-    private String ACCESS_HEADER;
+    private String ACCESS_HEADER; //
 
     private final JwtProvider jwtProvider;
 
