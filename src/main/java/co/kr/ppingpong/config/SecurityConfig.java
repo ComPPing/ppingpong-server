@@ -1,6 +1,8 @@
 package co.kr.ppingpong.config;
 
+import co.kr.ppingpong.config.auth.JwtAuthorizationFilter;
 import co.kr.ppingpong.config.auth.OAuth2DetailsService;
+import co.kr.ppingpong.config.auth.OAuth2SuccessHandler;
 import co.kr.ppingpong.util.CustomResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
@@ -27,7 +30,8 @@ public class SecurityConfig {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final OAuth2DetailsService oAuth2DetailsService;
-
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -40,6 +44,9 @@ public class SecurityConfig {
         http.httpBasic().disable();
 
         http.oauth2Login().userInfoEndpoint().userService(oAuth2DetailsService);
+        http.oauth2Login().successHandler(oAuth2SuccessHandler);
+
+        http.apply(new CustomSecurityFilterManager());
 
         // 인증실패 예외 가로채기
         http.exceptionHandling().authenticationEntryPoint((request, response, e) -> {
@@ -61,7 +68,14 @@ public class SecurityConfig {
 
     }
 
-
+    // 필터 등록
+    public class CustomSecurityFilterManager extends AbstractHttpConfigurer<CustomSecurityFilterManager, HttpSecurity> {
+        @Override
+        public void configure(HttpSecurity builder) throws Exception { // 스프링 시큐리티에서 사용되는 구성을 위한 빌더 클래스
+            builder.addFilter(jwtAuthorizationFilter);
+            super.configure(builder);
+        }
+    }
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
@@ -82,7 +96,8 @@ public class SecurityConfig {
                 .tokenUri("https://www.googleapis.com/oauth2/v4/token")
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .userNameAttributeName("sub")
-                .redirectUri("http://localhost:8080/login/oauth2/code/google")
+                .redirectUri("https://ppingpong/login/oauth2/code/google")
+//                .redirectUri("http://localhost:8080/login/oauth2/code/google")
                 .clientName("Google")
                 .build();
     }
@@ -98,7 +113,8 @@ public class SecurityConfig {
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")
                 .userNameAttributeName("id")
-                .redirectUri("http://App-compping-beanstalk-env.eba-f4upmz7v.ap-northeast-2.elasticbeanstalk.com/login/oauth2/code/kakao") // 변경
+                .redirectUri("https://ppingpong/login/oauth2/code/kakao") // 변경
+//                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
                 .build();
     }
 
