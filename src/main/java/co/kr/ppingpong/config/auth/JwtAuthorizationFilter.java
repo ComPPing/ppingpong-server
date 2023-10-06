@@ -19,14 +19,14 @@ import java.io.IOException;
 @Component
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass()); //
     private final JwtProvider jwtProvider;
 
-    @Value("${jwt.access_header:null}")
-    private String ACCESS_HEADER;
-
-    @Value("${jwt.token_prefix:null}")
-    private String TOKEN_PREFIX;
+//    @Value("${jwt.access_header:null}")
+//    private String ACCESS_HEADER;
+//
+//    @Value("${jwt.token_prefix:null}")
+//    private String TOKEN_PREFIX;
 
     public JwtAuthorizationFilter(AuthenticationManager authenticationManager, JwtProvider jwtProvider) {
         super(authenticationManager);
@@ -37,7 +37,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         if (isHeaderVerify(request, response)) {
             log.debug("디버그 : 토큰이 존재함");
-            String accessToken = request.getHeader(ACCESS_HEADER).replace(TOKEN_PREFIX, "");
+            String accessToken = request.getHeader("ACCESS_TOKEN").replace("Bearer ", "");
             log.debug("accessToken " + accessToken);
             LoginUser loginUser = jwtProvider.accessTokenVerify(accessToken);
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
@@ -47,9 +47,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private boolean isHeaderVerify(HttpServletRequest request, HttpServletResponse response) {
-        String accessHeader = request.getHeader(ACCESS_HEADER);
+        String accessHeader = request.getHeader("ACCESS_TOKEN");
 
-        if (accessHeader == null || !accessHeader.startsWith(TOKEN_PREFIX)) {
+        if (accessHeader == null || !accessHeader.startsWith("Bearer ")) {
             return false;
         } else {
             return true;

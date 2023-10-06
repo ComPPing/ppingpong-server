@@ -18,9 +18,9 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
-
-    @Value("${jwt.access_header}")
-    private String ACCESS_HEADER; //
+//
+//    @Value("${jwt.access_header}")
+//    private String ACCESS_HEADER; //
 
     private final JwtProvider jwtProvider;
 
@@ -28,7 +28,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         String accessToken = jwtProvider.accessTokenCreate(loginUser);
-        response.addHeader(ACCESS_HEADER, accessToken);
+        response.addHeader("ACCESS_HEADER", accessToken);
         LoginRespDto loginRespDto = new LoginRespDto(loginUser.getUser(), accessToken);
 
         CustomResponseUtil.success(response, loginRespDto);
