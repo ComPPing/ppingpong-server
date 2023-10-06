@@ -43,6 +43,10 @@ public class SecurityConfig {
         http.formLogin().disable();
         http.httpBasic().disable();
 
+        http.authorizeRequests()
+                .antMatchers("/api/s/**").authenticated()
+                .anyRequest().permitAll();
+
         http.oauth2Login().userInfoEndpoint().userService(oAuth2DetailsService);
         http.oauth2Login().successHandler(oAuth2SuccessHandler);
 
@@ -60,9 +64,6 @@ public class SecurityConfig {
             CustomResponseUtil.fail(response, "권한이 없습니다.", HttpStatus.FORBIDDEN);
         });
 
-        http.authorizeRequests()
-                .antMatchers("/api/s/**").authenticated()
-                .anyRequest().permitAll();
 
         return http.build();
 
