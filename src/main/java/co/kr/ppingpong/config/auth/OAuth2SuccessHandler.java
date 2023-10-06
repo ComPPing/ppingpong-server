@@ -32,6 +32,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         LoginRespDto loginRespDto = new LoginRespDto(loginUser.getUser(), accessToken);
 
         CustomResponseUtil.success(response, loginRespDto);
+        response.sendRedirect("/");
     }
 
 }
