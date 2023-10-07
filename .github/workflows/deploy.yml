@@ -19,7 +19,7 @@ jobs:
           distribution: zulu
       - name: make application-prod.yml
         run: |
-            cd ./ppingpong/src/main/resources
+            cd ./src/main/resources
             touch ./application-prod.yml
             echo "${{ secrets.PROPERTIES }}" > ./application-prod.yml
         shell: bash
@@ -54,7 +54,7 @@ jobs:
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
           application_name: app-compping-beanstalk   # 엘리스틱 빈스톡 애플리케이션 이름!
           environment_name: App-compping-beanstalk-env # 엘리스틱 빈스톡 환경 이름!
-          version_label: 2023-10-07-19-59 # 올릴때마다 달라야함
+          version_label: 2023-10-07-20-10 # 올릴때마다 달라야함
 
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
