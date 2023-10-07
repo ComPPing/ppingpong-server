@@ -47,8 +47,8 @@ public class SecurityConfig {
                 .antMatchers("/api/s/**").authenticated()
                 .anyRequest().permitAll();
 
-        http.oauth2Login().userInfoEndpoint().userService(oAuth2DetailsService);
-        http.oauth2Login().successHandler(oAuth2SuccessHandler);
+//        http.oauth2Login().userInfoEndpoint().userService(oAuth2DetailsService);
+//        http.oauth2Login().successHandler(oAuth2SuccessHandler);
 
         http.apply(new CustomSecurityFilterManager());
 
