@@ -113,7 +113,7 @@ public class SecurityConfig {
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")
                 .userNameAttributeName("id")
-                .redirectUri("https://ppingpong.store/login/oauth2/code/kakao")
+                .redirectUri("https://ppingpong.store/login/oauth2/code/kakao") ///
 //                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
                 .build();
     }
