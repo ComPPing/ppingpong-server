@@ -1,4 +1,4 @@
-package co.kr.ppingpong.domain.user;
+package co.kr.ppingpong.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
