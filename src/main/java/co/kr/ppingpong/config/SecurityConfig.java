@@ -96,8 +96,8 @@ public class SecurityConfig {
                 .tokenUri("https://www.googleapis.com/oauth2/v4/token")
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
                 .userNameAttributeName("sub")
-//                .redirectUri("https://ppingpong.store/login/oauth2/code/google")
-                .redirectUri("http://localhost:8080/login/oauth2/code/google")
+                .redirectUri("https://ppingpong.store/login/oauth2/code/google")
+//                .redirectUri("http://localhost:8080/login/oauth2/code/google")
                 .clientName("Google")
                 .build();
     }
@@ -113,8 +113,8 @@ public class SecurityConfig {
                 .tokenUri("https://kauth.kakao.com/oauth/token")
                 .userInfoUri("https://kapi.kakao.com/v2/user/me")
                 .userNameAttributeName("id")
-//                .redirectUri("https://ppingpong.store/login/oauth2/code/kakao")
-                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
+                .redirectUri("https://ppingpong.store/login/oauth2/code/kakao")
+//                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
                 .build();
     }
 
