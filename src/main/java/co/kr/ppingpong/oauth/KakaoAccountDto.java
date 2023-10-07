@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class KakaoAccountDto {
+public class KakaoAccountDto { //
 
     private KakaoAccount kakao_account;
 
