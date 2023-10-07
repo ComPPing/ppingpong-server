@@ -19,10 +19,10 @@ jobs:
           distribution: zulu
       - name: make application-prod.yml
         run: |
-            cd ./inu-phonebook/src/main/resources
+            cd ./ppingpong/src/main/resources
             touch ./application-prod.yml
             echo "${{ secrets.PROPERTIES }}" > ./application-prod.yml
-          shell: bash
+        shell: bash
       - name: Pemission
         run: chmod +x ./gradlew
       - name: Build with Gradle

@@ -20,7 +20,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass()); //
     private final JwtProvider jwtProvider;
 
 //    @Value("${jwt.access_header:null}")
