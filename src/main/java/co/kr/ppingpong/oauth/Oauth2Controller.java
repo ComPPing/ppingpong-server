@@ -1,10 +1,7 @@
 package co.kr.ppingpong.oauth;
 
 import co.kr.ppingpong.config.auth.LoginUser;
-import co.kr.ppingpong.domain.user.User;
-import co.kr.ppingpong.domain.user.UserRepository;
 import co.kr.ppingpong.dto.ResponseDto;
-import co.kr.ppingpong.oauth.dto.kakao.KakaoLoginDto;
 import co.kr.ppingpong.oauth.dto.kakao.KakaoTokenRespDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 import static co.kr.ppingpong.dto.user.UserRespDto.*;
 
@@ -28,9 +23,9 @@ public class Oauth2Controller {
     @GetMapping("/login/{oauthServerType}")
     ResponseEntity<?> login(@PathVariable String oauthServerType, @RequestParam String code) {
 
-        KakaoTokenRespDto kakaoTokenRespDto = kakaoOauth2Service.액세스토큰받기(code);
-        LoginUser loginUser = kakaoOauth2Service.사용자정보가져오기(kakaoTokenRespDto);
-        LoginRespDto loginRespDto = kakaoOauth2Service.로그인(loginUser);
+        KakaoTokenRespDto kakaoTokenRespDto = kakaoOauth2Service.getAccessToken(code);
+        LoginUser loginUser = kakaoOauth2Service.getUserInfo(kakaoTokenRespDto);
+        LoginRespDto loginRespDto = kakaoOauth2Service.login(loginUser);
 
         return new ResponseEntity<>(new ResponseDto<>(1, "로그인 성공", loginRespDto), HttpStatus.OK);
     }
