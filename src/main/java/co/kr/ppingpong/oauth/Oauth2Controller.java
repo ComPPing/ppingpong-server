@@ -23,7 +23,7 @@ public class Oauth2Controller {
     private final KakaoOauth2Service kakaoOauth2Service;
     private final UserRepository userRepository;
 
-    // e.g. http://localhost:8080/login/oauth2/code/kakao?code=
+    // e.g. https://ppingpong.store/login/oauth2/code/kakao?code=
     // 프론트에서 인가코드를 받음 -> 인가코드와함께 post 요청을 보내줄 컨트롤러
     @GetMapping("/login/oauth2/code/{oauthServerType}")
     ResponseEntity<?> login(@PathVariable String oauthServerType, @RequestParam String code) {

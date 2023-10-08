@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-@Component
+//@Component
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 //
 //    @Value("${jwt.access_header}")
