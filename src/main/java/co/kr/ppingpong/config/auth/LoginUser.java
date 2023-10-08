@@ -11,7 +11,7 @@ import java.util.Map;
 
 
 @Getter
-public class LoginUser implements UserDetails, OAuth2User {
+public class LoginUser implements UserDetails, OAuth2User { //
 
     private final User user;
     private Map<String, Object> attributes;
