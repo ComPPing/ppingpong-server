@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseTimeEntity {
+public class User extends BaseTimeEntity { //
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
