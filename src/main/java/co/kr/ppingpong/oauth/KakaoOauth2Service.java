@@ -42,7 +42,7 @@ public class KakaoOauth2Service {
     @Value("oauth.kakao.redirect_uri")
     private String KAKAO_REDIRECT_URI;
 
-    public KakaoTokenRespDto 액세스토큰받기(String code) {
+    public KakaoTokenRespDto getAccessToken(String code) {
 
         KakaoTokenReqDto kakaoTokenReqDto = KakaoTokenReqDto.builder()
                 .client_id(KAKAO_CLIENT_ID)
@@ -56,7 +56,7 @@ public class KakaoOauth2Service {
         return kakaoTokenRespDto;
     }
 
-    public LoginUser 사용자정보가져오기(KakaoTokenRespDto kakaoTokenRespDto) {
+    public LoginUser getUserInfo(KakaoTokenRespDto kakaoTokenRespDto) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -117,7 +117,7 @@ public class KakaoOauth2Service {
         }
     }
 
-    public LoginRespDto 로그인(LoginUser loginUser) {
+    public LoginRespDto login(LoginUser loginUser) {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
