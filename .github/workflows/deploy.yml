@@ -55,6 +55,6 @@ jobs:
           application_name: app-compping-beanstalk   # 엘리스틱 빈스톡 애플리케이션 이름!
           environment_name: App-compping-beanstalk-env # 엘리스틱 빈스톡 환경 이름!
 
-          version_label: 2023-10-08-23-52 # 올릴때마다 달라야함
+          version_label: 2023-10-08-00-52 # 올릴때마다 달라야함
           region: ap-northeast-2
           deployment_package: deploy/deploy.zip
