@@ -1,4 +1,4 @@
-package co.kr.ppingpong.oauth;
+package co.kr.ppingpong.oauth.dto.kakao;
 
 import lombok.Getter;
 import lombok.Setter;
