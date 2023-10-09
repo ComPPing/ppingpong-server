@@ -1,4 +1,4 @@
-package co.kr.ppingpong.oauth;
+package co.kr.ppingpong.oauth.kako;
 
 import co.kr.ppingpong.config.auth.JwtProvider;
 import co.kr.ppingpong.config.auth.LoginUser;
@@ -32,7 +32,6 @@ import static co.kr.ppingpong.dto.user.UserRespDto.*;
 @Service
 public class KakaoOauth2Service {
 
-    private final ObjectMapper om;
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
