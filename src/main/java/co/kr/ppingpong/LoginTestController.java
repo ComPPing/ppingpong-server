@@ -15,7 +15,7 @@ public class LoginTestController {
 
     private final UserRepository userRepository;
 
-    @GetMapping("/check") //
+    @GetMapping("/check")
     public String check() {
         // html 읽으려면 타임리프 필요
         return "login";
