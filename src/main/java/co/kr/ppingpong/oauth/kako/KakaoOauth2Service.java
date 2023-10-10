@@ -30,7 +30,7 @@ import static co.kr.ppingpong.dto.user.UserRespDto.*;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class KakaoOauth2Service {
+public class KakaoOauth2Service { //
 
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
