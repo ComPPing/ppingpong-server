@@ -9,7 +9,7 @@ public class HealthCheckController {
 
     @GetMapping
     public String hi() {
-        return "dev에서 merge 요청했습니다.";
+        return "FTP 파일전송 성공했습니다.";
     }
 
 

@@ -8,11 +8,15 @@ import co.kr.ppingpong.oauth.google.GoogleOauth2Service;
 import co.kr.ppingpong.oauth.kako.KakaoOauth2Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.net.URI;
 
 import static co.kr.ppingpong.dto.user.UserRespDto.*;
 
@@ -22,6 +26,19 @@ public class Oauth2Controller {
 
     private final KakaoOauth2Service kakaoOauth2Service;
     private final GoogleOauth2Service googleOauth2Service;
+
+    @Value("oauth.kakao.client_id")
+    private String KAKAO_CLIENT_ID;
+
+    @Value("oauth.kakao.redirect_uri")
+    private String KAKAO_REDIRECT_URI;
+
+    @GetMapping("https://kauth.kakao.com/oauth/authorize?client_id=96f7ce1905bc319224b20c051f0fb1e1" +
+            "&redirect_uri=http://localhost:8080/login/kakao&response_type=code")
+    ResponseEntity<?> getAuthcode_kakao() {
+        return null;
+    }
+
 
     // 프론트에서 인가코드를 받음 -> 인가코드와함께 post 요청을 보내줄 컨트롤러
     @GetMapping("/login/kakao")

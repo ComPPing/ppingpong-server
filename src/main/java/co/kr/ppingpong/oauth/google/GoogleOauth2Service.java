@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+
+import static co.kr.ppingpong.dto.user.UserRespDto.*;
 
 @RequiredArgsConstructor
 @Transactional
@@ -53,6 +56,7 @@ public class GoogleOauth2Service {
 
     public LoginUser getUserInfo(GoogleTokenRespDto googleTokenRespDto) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
         ObjectMapper objectMapper = new ObjectMapper();
         String requestUrl = UriComponentsBuilder.fromHttpUrl("https://oauth2.googleapis.com/tokeninfo").queryParam("id_token", googleTokenRespDto.getId_token()).toUriString();
         String resultJson = restTemplate.getForObject(requestUrl, String.class);
@@ -75,11 +79,12 @@ public class GoogleOauth2Service {
 
     private GoogleTokenRespDto getToken(GoogleTokenReqDto googleTokenReqDto) {
         RestTemplate restTemplate = new RestTemplate();
+        restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
         GoogleTokenRespDto googleTokenRespDto = restTemplate.postForObject("https://oauth2.googleapis.com/token", googleTokenReqDto, GoogleTokenRespDto.class);
         return googleTokenRespDto;
     }
 
-    public UserRespDto.LoginRespDto login(LoginUser loginUser) {
+    public LoginRespDto login(LoginUser loginUser) {
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -89,7 +94,7 @@ public class GoogleOauth2Service {
         HttpHeaders headers = new HttpHeaders(); // 응답헤더랑 responseDto 둘다 jwtAccessToken 넣어줌(뭐로 줄지 안정해서)
         headers.add("ACCESS_HEADER", jwtAccessToken);
 
-        UserRespDto.LoginRespDto loginRespDto = new UserRespDto.LoginRespDto(loginUser.getUser(), jwtAccessToken);
+        LoginRespDto loginRespDto = new LoginRespDto(loginUser.getUser(), jwtAccessToken);
         return loginRespDto;
     }
 }
