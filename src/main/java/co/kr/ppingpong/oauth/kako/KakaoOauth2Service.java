@@ -2,6 +2,7 @@ package co.kr.ppingpong.oauth.kako;
 
 import co.kr.ppingpong.config.auth.JwtProvider;
 import co.kr.ppingpong.config.auth.LoginUser;
+import co.kr.ppingpong.domain.user.GenderEnum;
 import co.kr.ppingpong.domain.user.User;
 import co.kr.ppingpong.domain.user.UserRepository;
 
@@ -14,9 +15,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -26,6 +24,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 import static co.kr.ppingpong.dto.user.UserRespDto.*;
+import static co.kr.ppingpong.util.CustomResponseUtil.getLoginRespDto;
 
 @RequiredArgsConstructor
 @Transactional
@@ -35,15 +34,15 @@ public class KakaoOauth2Service {
     private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
 
-    @Value("oauth.kakao.client_id")
+    @Value("${oauth.kakao.client_id}")
     private String KAKAO_CLIENT_ID;
 
-    @Value("oauth.kakao.redirect_uri")
+    @Value("${oauth.kakao.redirect_uri}")
     private String KAKAO_REDIRECT_URI;
 
     public String getAuthCode() {
-        String reqUrl = "https://kauth.kakao.com/oauth/authorize?client_id=" + "96f7ce1905bc319224b20c051f0fb1e1"
-                + "&redirect_uri=" + "http://localhost:8080/login/kakao" + "&response_type=code";
+        String reqUrl = "https://kauth.kakao.com/oauth/authorize?client_id=" + KAKAO_CLIENT_ID
+                + "&redirect_uri=" + KAKAO_REDIRECT_URI + "&response_type=code";
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
@@ -57,9 +56,10 @@ public class KakaoOauth2Service {
     public KakaoTokenRespDto getAccessToken(String code) {
 
         KakaoTokenReqDto kakaoTokenReqDto = KakaoTokenReqDto.builder()
-                .client_id("96f7ce1905bc319224b20c051f0fb1e1")
+                .client_id(KAKAO_CLIENT_ID)
                 .code(code)
-                .redirect_uri("http://localhost:3000/callback/kakao")
+//                .redirect_uri("https://ppingpong.pages.dev/callback/kakao")
+                .redirect_uri(KAKAO_REDIRECT_URI)
                 .grant_type("authorization_code")
                 .build();
 
@@ -82,8 +82,11 @@ public class KakaoOauth2Service {
 
         //Org.json
         JSONObject jsonObject = new JSONObject(response.getBody());
-//        System.out.println("json " + jsonObject);
+        System.out.println("json " + jsonObject);
         String email = jsonObject.getJSONObject("kakao_account").getString("email");
+        String gender = jsonObject.getJSONObject("kakao_account").getString("gender");
+        String age_range = jsonObject.getJSONObject("kakao_account").getString("age_range");
+        String age = age_range.substring(0, 2);
         String name = jsonObject.getJSONObject("properties").getString("nickname");
 
         Optional<User> userOP = userRepository.findByEmail(email);
@@ -94,6 +97,8 @@ public class KakaoOauth2Service {
             User user = User.builder()
                     .name(name)
                     .email(email)
+                    .gender(gender.equals("male") ? GenderEnum.MALE : GenderEnum.FEMALE)
+                    .age(Integer.parseInt(age))
                     .build();
             User userPS = userRepository.save(user);
             LoginUser loginUser = new LoginUser(userPS);
@@ -139,16 +144,7 @@ public class KakaoOauth2Service {
 
     public LoginRespDto login(LoginUser loginUser) {
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String jwtAccessToken = jwtProvider.accessTokenCreate(loginUser);
-
-        HttpHeaders headers = new HttpHeaders(); // 응답헤더랑 responseDto 둘다 jwtAccessToken 넣어줌(뭐로 줄지 안정해서)
-        headers.add("ACCESS_HEADER", jwtAccessToken);
-
-        LoginRespDto loginRespDto = new LoginRespDto(loginUser.getUser(), jwtAccessToken);
-        return loginRespDto;
+        return getLoginRespDto(loginUser, jwtProvider);
     }
 
 }
