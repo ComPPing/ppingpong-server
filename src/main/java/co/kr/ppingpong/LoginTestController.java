@@ -3,6 +3,7 @@ package co.kr.ppingpong;
 import co.kr.ppingpong.domain.user.User;
 import co.kr.ppingpong.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,6 +13,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Controller
 public class LoginTestController {
+
+    @Value("${oauth.kakao.client_id}")
+    private String KAKAO_CLIENT_ID;
+
+    @Value("${oauth.kakao.redirect_uri}")
+    private String KAKAO_REDIRECT_URI;
 
     private final UserRepository userRepository;
 
@@ -23,6 +30,7 @@ public class LoginTestController {
     @ResponseBody
     @GetMapping("/test")
     public String test() {
+        System.out.println("@Value " + KAKAO_CLIENT_ID);
         Optional<User> userOp = userRepository.findById(1L);
         if (userOp.isPresent()) {
             return "있다.";
