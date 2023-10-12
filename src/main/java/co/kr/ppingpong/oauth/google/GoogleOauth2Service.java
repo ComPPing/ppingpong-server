@@ -50,8 +50,6 @@ public class GoogleOauth2Service {
                 .clientSecret("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")
                 .code(code)
                 .redirectUri(GOOGLE_REDIRECT_URI)
-//                .redirectUri("http://localhost:8080/login/google")
-//                .redirectUri("https://ppingpong.pages.dev/callback/google")
                 .grantType("authorization_code")
                 .build();
 
