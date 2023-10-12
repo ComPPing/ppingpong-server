@@ -58,7 +58,6 @@ public class KakaoOauth2Service {
         KakaoTokenReqDto kakaoTokenReqDto = KakaoTokenReqDto.builder()
                 .client_id(KAKAO_CLIENT_ID)
                 .code(code)
-//                .redirect_uri("https://ppingpong.pages.dev/callback/kakao")
                 .redirect_uri(KAKAO_REDIRECT_URI)
                 .grant_type("authorization_code")
                 .build();

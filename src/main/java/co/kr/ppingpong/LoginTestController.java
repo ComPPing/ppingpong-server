@@ -14,12 +14,6 @@ import java.util.Optional;
 @Controller
 public class LoginTestController {
 
-    @Value("${oauth.kakao.client_id}")
-    private String KAKAO_CLIENT_ID;
-
-    @Value("${oauth.kakao.redirect_uri}")
-    private String KAKAO_REDIRECT_URI;
-
     private final UserRepository userRepository;
 
     @GetMapping("/check")
@@ -30,7 +24,7 @@ public class LoginTestController {
     @ResponseBody
     @GetMapping("/test")
     public String test() {
-        System.out.println("@Value " + KAKAO_CLIENT_ID);
+//        System.out.println("@Value " + KAKAO_CLIENT_ID);
         Optional<User> userOp = userRepository.findById(1L);
         if (userOp.isPresent()) {
             return "있다.";
