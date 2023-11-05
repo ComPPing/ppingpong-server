@@ -68,15 +68,20 @@ public class KakaoOauth2Service {
     }
 
     public LoginUser getUserInfo(KakaoTokenRespDto kakaoTokenRespDto) {
+        // 헤더와 바디 구성
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         httpHeaders.set("Authorization", "Bearer " + kakaoTokenRespDto.getAccess_token());
 
+        MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
+        body.add("property_keys", "[\"kakao_account.gender\",\"kakao_account.email\",\"kakao_account.age_range\", \"kakao_account.profile\"]");
 
-        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(httpHeaders);
 
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(body,httpHeaders);
+
+        // 실제 요청
         ResponseEntity<String> response = restTemplate.exchange("https://kapi.kakao.com/v2/user/me", HttpMethod.POST, kakaoProfileRequest, String.class);
 
         //Org.json
@@ -86,7 +91,8 @@ public class KakaoOauth2Service {
         String gender = jsonObject.getJSONObject("kakao_account").getString("gender");
         String age_range = jsonObject.getJSONObject("kakao_account").getString("age_range");
         String age = age_range.substring(0, 2);
-        String name = jsonObject.getJSONObject("properties").getString("nickname");
+        JSONObject profile = jsonObject.getJSONObject("kakao_account").getJSONObject("profile");
+        String name = profile.getString("nickname");
 
         Optional<User> userOP = userRepository.findByEmail(email);
         if (userOP.isPresent()) {

@@ -34,6 +34,7 @@ public class Oauth2Controller {
     // 프론트에서 인가코드를 받음 -> 인가코드와함께 post 요청을 보내줄 컨트롤러
     // 느낀점 : 결국 백엔드에서 테스트해보려면 인가코드 받는 로직을 짜야됨. 다음에는 redirectUrl도 백엔드 주소로 하고 혼자 받으면 될 듯 + 카카오 개발자 피셜도 인증
 
+
     @Operation(summary = "카카오 로그인", description = "요청 파라미터에 인가코드를 넘겨주세요.")
     @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema = @Schema(implementation = LoginRespDto.class)))
     @GetMapping("/login/kakao")
