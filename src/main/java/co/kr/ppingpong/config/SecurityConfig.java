@@ -1,6 +1,6 @@
 package co.kr.ppingpong.config;
 
-//import co.kr.ppingpong.config.auth.OAuth2DetailsService;
+import co.kr.ppingpong.config.auth.JwtAuthorizationFilter;
 import co.kr.ppingpong.util.CustomResponseUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-        import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 //import org.springframework.security.oauth2.client.registration.ClientRegistration;
 //import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 //import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -24,8 +25,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-//    private final OAuth2DetailsService oAuth2DetailsService;
-//    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 //    private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
     @Bean
@@ -38,11 +37,11 @@ public class SecurityConfig {
         http.formLogin().disable();
         http.httpBasic().disable();
 
+//        http.apply(new CustomSecurityFilterManager());
+
         http.authorizeRequests()
                 .antMatchers("/api/s/**").authenticated()
                 .anyRequest().permitAll();
-
-//        http.apply(new CustomSecurityFilterManager());
 
         // 인증실패 예외 가로채기
         http.exceptionHandling().authenticationEntryPoint((request, response, e) -> {

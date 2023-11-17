@@ -78,7 +78,6 @@ public class KakaoOauth2Service {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("property_keys", "[\"kakao_account.gender\",\"kakao_account.email\",\"kakao_account.age_range\", \"kakao_account.profile\"]");
 
-
         HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(body,httpHeaders);
 
         // 실제 요청

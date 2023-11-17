@@ -20,6 +20,12 @@ public class Restaurant {
 
     private String title;
 
+    private String img;
+
+    private String naverLink;
+
+
+
 //    @OneToMany
 //    private List<Review> reviews = new ArrayList<>();
 

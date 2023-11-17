@@ -1,6 +1,7 @@
 package co.kr.ppingpong.config.auth;
 
 import co.kr.ppingpong.domain.user.User;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

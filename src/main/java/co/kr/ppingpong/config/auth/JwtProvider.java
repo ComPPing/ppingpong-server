@@ -29,6 +29,7 @@ public class JwtProvider {
                 .withClaim("email", loginUser.getUser().getEmail())
                 .sign(Algorithm.HMAC512("ComppingSecret"));
         return "Bearer " + jwtToken;
+//        return jwtToken;
     }
 
     // 토큰 검증 (return 되는 LoginUser 객체를 강제로 시큐리티 세션에 직접 주입할 예정)
