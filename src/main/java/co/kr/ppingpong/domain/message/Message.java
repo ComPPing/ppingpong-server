@@ -1,4 +1,4 @@
-package co.kr.ppingpong.domain.chat;
+package co.kr.ppingpong.domain.message;
 
 import co.kr.ppingpong.domain.BaseTimeEntity;
 import co.kr.ppingpong.domain.user.User;
@@ -10,28 +10,31 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @Entity
-@Table(name = "chatroom_tb")
+@Table(name = "message_tb")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ChatRoom extends BaseTimeEntity {
-
+public class Message extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    private String role;
+    private String content;
+
+    @ElementCollection
+    private List<String> urls;
+
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
-    private List<Message> messages = new ArrayList<>();
-
     @Builder
-    public ChatRoom(Long id, User user, List<Message> messages) {
+    public Message(Long id, String role, String content, User user, List<String> urls) {
         this.id = id;
+        this.role = role;
+        this.urls = urls;
+        this.content = content;
         this.user = user;
-        this.messages = messages;
     }
 }

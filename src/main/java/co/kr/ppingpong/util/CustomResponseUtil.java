@@ -15,19 +15,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static co.kr.ppingpong.dto.user.UserRespDto.*;
+
 public class CustomResponseUtil {
     private static final Logger log = LoggerFactory.getLogger(CustomResponseUtil.class);
 
-    public static UserRespDto.LoginRespDto getLoginRespDto(LoginUser loginUser, JwtProvider jwtProvider) {
+    public static LoginRespDto getLoginRespDto(LoginUser loginUser, JwtProvider jwtProvider) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwtAccessToken = jwtProvider.accessTokenCreate(loginUser);
 
         HttpHeaders headers = new HttpHeaders(); // 응답헤더랑 responseDto 둘다 jwtAccessToken 넣어줌(뭐로 줄지 안정해서)
-        headers.add("ACCESS_HEADER", jwtAccessToken);
+        headers.add("ACCESS_HEADER ", jwtAccessToken);
 
-        UserRespDto.LoginRespDto loginRespDto = new UserRespDto.LoginRespDto(loginUser.getUser(), jwtAccessToken);
+        LoginRespDto loginRespDto = new LoginRespDto(loginUser.getUser(), jwtAccessToken);
         return loginRespDto;
     }
 
